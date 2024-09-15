@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .from-primary {
+        --tw-gradient-from: #1d99ac;
+        --tw-gradient-stops: var(--tw-gradient-from),
+          var(--tw-gradient-to, rgba(34, 211, 238, 0));
+      }
+
+      .to-secondary {
+        --tw-gradient-to: #309e76;
+      }
+
+      .dark .bg-white {
+        background-color: #1a202c;
+      }
+
+      .dark .text-gray-800 {
+        color: #f7fafc;
+      }
+
+      .dark .text-gray-600 {
+        color: #e2e8f0;
+      }
+
+      .dark .text-gray-700 {
+        color: #edf2f7;
+      }
+
+      .dark .bg-gray-50 {
+        background-color: #2d3748;
+      }
+
+      .dark .border-gray-200 {
+        border-color: #4a5568;
+      }
+
+      .dark .hover\\:border-gray-400:hover {
+        border-color: #718096;
+      }
+
+      .dark .focus\\:border-gray-600:focus {
+        border-color: #a0aec0;
+      }
+
+      .dark .bg-gradient-to-r {
+        --tw-gradient-to: #1a202c;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <section id="contact" class="pt-20 pb-36 px-8 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center">
+          <h1 class="text-6xl font-bold text-gray-700">Contact</h1>
+          <p class="pt-2 text-xl">Get in touch with me.</p>
+        </div>
+      </div>
+      <div class="mt-16 relative max-w-4xl mx-auto">
+        <div
+          class="absolute z-10 inset-0 bg-gradient-to-r from-primary to-secondary shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-lg"
+        ></div>
+        <div class="relative z-20 bg-white rounded-md shadow-md p-12">
+          <form id="contactForm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Name"
+                class="border border-gray-200 outline-none px-4 py-2 rounded-md hover:border-gray-400 focus:border-gray-600"
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="E-mail"
+                class="border border-gray-200 outline-none px-4 py-2 rounded-md hover:border-gray-400 focus:border-gray-600"
+                required
+              />
+              <input
+                type="text"
+                name="subject"
+                id="subject"
+                placeholder="Subject"
+                class="border border-gray-200 outline-none px-4 py-2 rounded-md hover:border-gray-400 focus:border-gray-600 md:col-span-2"
+                required
+              />
+              <textarea
+                class="border border-gray-200 outline-none px-4 py-2 rounded-md hover:border-gray-400 focus:border-gray-600"
+                rows="5"
+                placeholder="message"
+                name="message"
+                id="message"
+                required
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="inline-block w-auto mt-4 px-6 py-2 bg-gradient-to-r from-primary to-secondary rounded-md shadow-md text-white font-bold text-sm"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const form = document.getElementById("contactForm");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          subject: document.getElementById("subject").value,
+          message: document.getElementById("message").value,
+        };
+
+        try {
+          const response = await fetch("http://localhost:3000/send-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+
+          const result = await response.json();
+          if (response.ok) {
+            alert("Message sent successfully!");
+          } else {
+            alert("Error sending message: " + result.message);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to send message");
+        }
+      });
+    </script>
+  </body>
+</html>
