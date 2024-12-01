@@ -7,9 +7,8 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(cors()); // Enable CORS if your front-end is on a different origin
+app.use(cors());
 
-// Email sending logic
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
@@ -20,19 +19,17 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Create a POST route to handle the form data
 app.post('/send-email', (req, res) => {
   const { name, email, subject, message } = req.body;
 
-  // Compose the email
+  
   const mailOptions = {
     from: email,
     to: 'iyadh1309@gmail.com',
     subject: `Contact Form Submission: ${subject}`,
     html: `<h1>${name} (${email}) says:</h1><p>${message}</p>`
   };
-
-  // Send the email
+  
   transporter.sendMail(mailOptions)
     .then(() => {
       res.status(200).send({ message: 'Email sent successfully' });

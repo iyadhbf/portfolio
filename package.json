@@ -24,6 +24,8 @@
   },
   "contributors": [],
   "scripts": {
+    "start": "node ./src/index.js",
+    
     "dev": "",
     "test": ""
   },
